@@ -1,0 +1,89 @@
+/* Center everything on the screen and add a soft pink background */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #ffb6c1; /* Light/pastel pink background */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* The main calculator body - now vibrant Pink! */
+.calculator {
+    background-color: #ff69b4; /* Hot Pink body */
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.2); 
+    width: 320px;
+}
+
+/* The display screen - now stark white/pink with black text */
+.display {
+    background-color: #ffffff; /* Crisp white background */
+    color: #000000; /* Jet black numbers */
+    font-size: 2.5rem;
+    text-align: right;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    overflow-x: auto;
+    white-space: nowrap;
+    border: 2px solid #000000; /* Bold black border */
+}
+
+/* Create a 4-column grid for the buttons */
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+/* Universal button styles (Number buttons are now light pink) */
+.btn {
+    padding: 20px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 50%; /* Makes buttons perfectly round */
+    background-color: #ffb6c1; /* Light pink background */
+    color: #000000; /* Black text for numbers */
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #ffa4b2;
+}
+
+/* Specific styling for operators (+, -, *, /) - Now Solid Black! */
+.operator {
+    background-color: #000000; /* Jet Black */
+    color: #ffffff; /* White text for contrast */
+}
+
+.operator:hover {
+    background-color: #222222; /* Dark grey on hover */
+}
+
+/* Styling for the Clear (C) button */
+.clear {
+    background-color: #ffffff; /* White button */
+    color: #ff69b4; /* Pink text */
+}
+
+.clear:hover {
+    background-color: #f5f5f5;
+}
+
+/* Make the Equals button span across two rows - Deep Black! */
+.equal {
+    grid-row: span 2;
+    border-radius: 30px; 
+    background-color: #111111; /* Deepest black */
+    color: #ff69b4; /* Hot pink text for the equals sign */
+}
+
+.equal:hover {
+    background-color: #333333;
+}
