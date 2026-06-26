@@ -1,9 +1,6 @@
-// Get a reference to the display element so we can update it
 const display = document.getElementById('display');
 
-// This function adds clicked numbers to the display screen
 function appendNumber(number) {
-    // If the display currently shows just '0', replace it. Otherwise, add to it.
     if (display.innerText === '0') {
         display.innerText = number;
     } else {
@@ -11,55 +8,69 @@ function appendNumber(number) {
     }
 }
 
-// This function adds clicked operators (+, -, *, /) to the display screen
 function appendOperator(operator) {
     const lastChar = display.innerText.slice(-1);
-    
-    // Prevent adding two operators in a row (e.g., prevent "5++" or "5+-")
     if (['+', '-', '*', '/'].includes(lastChar)) {
-        // Replace the old operator with the new one
         display.innerText = display.innerText.slice(0, -1) + operator;
     } else {
         display.innerText += operator;
     }
 }
 
-// This function clears the entire screen back to 0
+// NEW: Decimal Point Protection
+function appendDecimal() {
+    const displayString = display.innerText;
+    
+    // Split the screen contents by operators to get the current working number
+    const operations = displayString.split(/[\+\-\*\/]/);
+    const currentNumber = operations[operations.length - 1];
+
+    // If the current number doesn't already have a dot, allow adding one
+    if (!currentNumber.includes('.')) {
+        display.innerText += '.';
+    }
+}
+
+// NEW: Backspace Function
+function backspace() {
+    if (display.innerText.length > 1) {
+        display.innerText = display.innerText.slice(0, -1);
+    } else {
+        display.innerText = '0'; // Default to 0 if everything is deleted
+    }
+}
+
 function clearDisplay() {
     display.innerText = '0';
 }
 
-// This function calculates the result when '=' is clicked
 function calculate() {
     try {
-        // eval() takes a string like "12+5" and computes the mathematical result
-        // We use modern JavaScript features to handle calculation safety smoothly
         const result = Function('"use strict";return (' + display.innerText + ')')();
-        
-        // Update the display with the answer
         display.innerText = result;
     } catch (error) {
-        // If the user typed something invalid, show an error
         display.innerText = 'Error';
     }
 }
 
-// This function clears the entire screen back to 0
-function clearDisplay() {
-    display.innerText = '0';
-}
-
-// This function calculates the result when '=' is clicked
-function calculate() {
-    try {
-        // eval() takes a string like "12+5" and computes the mathematical result
-        // We use modern JavaScript features to handle calculation safety smoothly
-        const result = Function('"use strict";return (' + display.innerText + ')')();
-        
-        // Update the display with the answer
-        display.innerText = result;
-    } catch (error) {
-        // If the user typed something invalid, show an error
-        display.innerText = 'Error';
+// NEW: Dark/Light Mode Switcher Logic
+function toggleTheme() {
+    const toggle = document.getElementById('theme-toggle');
+    if (toggle.checked) {
+        document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+        document.documentElement.removeAttribute('data-theme');
     }
 }
+
+// NEW: Keyboard Support Listeners
+document.addEventListener('keydown', (event) => {
+    const key = event.key;
+
+    if (!isNaN(key)) appendNumber(key);                 // Detect numbers 0-9
+    if (['+', '-', '*', '/'].includes(key)) appendOperator(key); // Detect operations
+    if (key === '.') appendDecimal();                   // Detect decimal dot
+    if (key === 'Enter' || key === '=') calculate();    // Enter runs evaluation
+    if (key === 'Backspace') backspace();                // Backspace deletes char
+    if (key === 'Escape' || key.toLowerCase() === 'c') clearDisplay(); // Escape clears screen
+});
